@@ -122,14 +122,14 @@
 
     <div class="container">
         <h1>Verox - Keyless</h1>
-        <p>Hệ thống lấy key tự động nhanh chóng và tiện lợi</p>
+        <p>Hoàn thành vượt link để nhận Key của bạn</p>
 
         <!-- Nút Get Key ban đầu -->
         <div id="get-key-section">
             <button class="btn" onclick="openGetLink()">Get Key</button>
         </div>
 
-        <!-- Khu vực hiển thị Key sau khi vượt link -->
+        <!-- Khu vực hiển thị Key sau khi vượt link xong -->
         <div id="key-section" class="key-box">
             <p style="margin-bottom: 5px;">Key của bạn đây:</p>
             <div class="key-input-group">
@@ -141,48 +141,44 @@
     </div>
 
     <script>
-        // Hàm khi bấm nút Get Key
+        // Hàm khi bấm nút Get Key chuyển sang link vượt mới
         function openGetLink() {
-            // Đánh dấu vào localStorage rằng người dùng đã bấm lấy link
             localStorage.setItem('verox_clicked', 'true');
-            // Chuyển hướng sang trang link vượt
-            window.location.href = "https://link4sub.com/0uZJCyBz4P";
+            window.location.href = "https://link-target.net/7221819/QdjHMVQfHw2e";
         }
 
-        // Kiểm tra ngay khi trang vừa tải xong
+        // Tự động kiểm tra và tạo key khi quay lại trang
         window.onload = function() {
             const hasClicked = localStorage.getItem('verox_clicked');
 
             if (hasClicked === 'true') {
-                // Ẩn nút Get Key, hiện ô chứa Key
                 document.getElementById('get-key-section').style.display = 'none';
                 document.getElementById('key-section').style.display = 'block';
 
-                // Tạo một key ngẫu nhiên bắt đầu bằng verox_
+                // Tạo key ngẫu nhiên có chữ đầu 100% là verox_
                 const randomKey = generateVeroxKey();
                 document.getElementById('keyOutput').value = randomKey;
 
-                // Xóa trạng thái để lần sau muốn lấy key mới phải bấm lại từ đầu (tùy chọn)
+                // Xóa trạng thái để lần sau lấy key mới phải bấm lại từ đầu
                 localStorage.removeItem('verox_clicked');
             }
         };
 
-        // Hàm tạo key ngẫu nhiên có tiền tố verox_
+        // Hàm tạo chuỗi ngẫu nhiên kèm tiền tố verox_
         function generateVeroxKey() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = 'verox_';
-            // Tạo thêm 12 ký tự ngẫu nhiên phía sau
             for (let i = 0; i < 12; i++) {
                 result += chars.charAt(Math.floor(Math.random() * chars.length));
             }
             return result;
         }
 
-        // Hàm copy key vào clipboard
+        // Hàm sao chép key
         function copyKey() {
             const keyInput = document.getElementById('keyOutput');
             keyInput.select();
-            keyInput.setSelectionRange(0, 99999); // Dành cho thiết bị di động
+            keyInput.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(keyInput.value);
 
             const msg = document.getElementById('successMsg');
