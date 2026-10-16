@@ -124,12 +124,12 @@
         <h1>Verox - Keyless</h1>
         <p>Hoàn thành vượt link để nhận Key của bạn</p>
 
-        <!-- Nút Get Key ban đầu -->
+        <!-- Nút Get Key -->
         <div id="get-key-section">
             <button class="btn" onclick="openGetLink()">Get Key</button>
         </div>
 
-        <!-- Khu vực hiển thị Key sau khi vượt link xong -->
+        <!-- Khu vực hiển thị Key sau khi hoàn thành -->
         <div id="key-section" class="key-box">
             <p style="margin-bottom: 5px;">Key của bạn đây:</p>
             <div class="key-input-group">
@@ -141,13 +141,11 @@
     </div>
 
     <script>
-        // Hàm khi bấm nút Get Key chuyển sang link vượt mới
         function openGetLink() {
             localStorage.setItem('verox_clicked', 'true');
             window.location.href = "https://link-target.net/7221819/QdjHMVQfHw2e";
         }
 
-        // Tự động kiểm tra và tạo key khi quay lại trang
         window.onload = function() {
             const hasClicked = localStorage.getItem('verox_clicked');
 
@@ -155,16 +153,13 @@
                 document.getElementById('get-key-section').style.display = 'none';
                 document.getElementById('key-section').style.display = 'block';
 
-                // Tạo key ngẫu nhiên có chữ đầu 100% là verox_
                 const randomKey = generateVeroxKey();
                 document.getElementById('keyOutput').value = randomKey;
 
-                // Xóa trạng thái để lần sau lấy key mới phải bấm lại từ đầu
                 localStorage.removeItem('verox_clicked');
             }
         };
 
-        // Hàm tạo chuỗi ngẫu nhiên kèm tiền tố verox_
         function generateVeroxKey() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
             let result = 'verox_';
@@ -174,7 +169,6 @@
             return result;
         }
 
-        // Hàm sao chép key
         function copyKey() {
             const keyInput = document.getElementById('keyOutput');
             keyInput.select();
@@ -190,3 +184,4 @@
     </script>
 </body>
 </html>
+
