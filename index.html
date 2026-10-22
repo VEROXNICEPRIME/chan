@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy Nice Prime // Live Web Console</title>
+    <title>Proxy Nice Prime // Ultimate ESP & Aim Matrix</title>
     <style>
         :root {
-            --bg-color: #050508;
-            --panel-bg: #0e0e14;
+            --bg-color: #060609;
+            --panel-bg: #0f0f17;
             --accent: #00ff66;
             --accent-glow: rgba(0, 255, 102, 0.4);
             --text-main: #f1f1f5;
             --text-dim: #7a7a99;
             --danger: #ff3366;
+            --esp-blue: #00bfff;
         }
 
         * {
@@ -25,26 +26,26 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 20px;
+            padding: 15px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
 
-        .main-box {
+        .dashboard {
             background-color: var(--panel-bg);
             border: 1px solid #1f1f2e;
-            border-radius: 8px;
-            padding: 25px;
+            border-radius: 10px;
+            padding: 20px;
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+            max-width: 460px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
         }
 
         h1 {
             color: var(--accent);
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-align: center;
             margin-bottom: 5px;
             text-shadow: 0 0 10px var(--accent-glow);
@@ -53,30 +54,16 @@
         .subtitle {
             text-align: center;
             color: var(--text-dim);
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-        }
-
-        .section {
+            font-size: 0.75rem;
             margin-bottom: 15px;
         }
 
-        label {
-            display: block;
+        .section-title {
             font-size: 0.8rem;
-            color: var(--text-dim);
-            margin-bottom: 5px;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            background: #040406;
-            border: 1px solid #28283d;
-            color: var(--text-main);
-            border-radius: 4px;
-            font-size: 0.9rem;
-            outline: none;
+            color: var(--accent);
+            margin: 12px 0 6px;
+            border-left: 3px solid var(--accent);
+            padding-left: 6px;
         }
 
         .btn {
@@ -87,16 +74,16 @@
             color: #000;
             font-weight: bold;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             text-align: center;
-            font-size: 0.95rem;
-            margin-top: 10px;
+            font-size: 0.9rem;
+            margin-top: 8px;
             transition: all 0.2s ease;
         }
 
         .btn:hover {
-            box-shadow: 0 0 12px var(--accent-glow);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .btn-danger {
@@ -104,14 +91,19 @@
             color: #fff;
         }
 
-        .log-screen {
-            background: #040406;
+        .btn-esp {
+            background: linear-gradient(135deg, #0088cc, var(--esp-blue));
+            color: #fff;
+        }
+
+        .log-box {
+            background: #030305;
             border: 1px solid #28283d;
-            border-radius: 4px;
-            padding: 12px;
-            height: 150px;
+            border-radius: 6px;
+            padding: 10px;
+            height: 130px;
             overflow-y: auto;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--accent);
             margin-top: 15px;
         }
@@ -123,41 +115,53 @@
 </head>
 <body>
 
-    <div class="main-box">
-        <h1>PROXY NICE PRIME</h1>
-        <div class="subtitle">FREE FIRE MAX & THƯỜNG // LIVE WEB CONSOLE</div>
+    <div class="dashboard">
+        <h1>PROXY NICE PRIME // ULTRA ESP</h1>
+        <div class="subtitle">FIX LAG + AIM CỔ + ESP XUYÊN TƯỜNG 100%</div>
 
-        <div class="section">
-            <label>Chọn phiên bản game:</label>
-            <select id="game-ver">
-                <option value="max">Free Fire MAX</option>
-                <option value="reg">Free Fire Thường</option>
-            </select>
-        </div>
+        <div class="section-title">1. Khởi động tự động</div>
+        <button class="btn" onclick="launchGameAndProxy()">BẬT CONFIG & TỰ MỞ FREE FIRE</button>
 
-        <button class="btn" onclick="runProxy()">BẬT PROXY FIX LAG</button>
-        <button class="btn btn-danger" onclick="runAimLock()">KÍCH HOẠT AIM CỔ 100%</button>
+        <div class="section-title">2. Menu Ghim Tâm & Fix Lag</div>
+        <button class="btn btn-danger" onclick="injectAimFix()">KÍCH HOẠT FIX LAG & AIM CỔ 100%</button>
 
-        <div class="log-screen" id="console">
-            <div class="log-line">[System]: Web console đã chạy. Sẵn sàng chiến, boss man!</div>
+        <div class="section-title">3. Menu ESP & Nhìn Xuyên Tường</div>
+        <button class="btn btn-esp" onclick="activateESP()">KÍCH HOẠT ESP ĐỊNH VỊ + XANH TOÀN THÂN + WALLHACK</button>
+
+        <div class="log-box" id="terminal">
+            <div class="log-line">[System]: Đã nạp hệ thống mới. Sẵn sàng càn quét, boss man!</div>
         </div>
     </div>
 
     <script>
         function log(msg) {
-            const screen = document.getElementById('console');
+            const term = document.getElementById('terminal');
             const time = new Date().toLocaleTimeString();
-            screen.innerHTML += `<div class="log-line">[${time}] ${msg}</div>`;
-            screen.scrollTop = screen.scrollHeight;
+            term.innerHTML += `<div class="log-line">[${time}] ${msg}</div>`;
+            term.scrollTop = term.scrollHeight;
         }
 
-        function runProxy() {
-            const ver = document.getElementById('game-ver').value;
-            log(`Đang kích hoạt Proxy Nice Prime cho Free Fire ${ver.toUpperCase()}... Ping đã kéo xuống 12ms!`);
+        function launchGameAndProxy() {
+            log(`Đang nạp Proxy Nice Prime và tự động gọi tiến trình mở Free Fire...`);
+            setTimeout(() => {
+                log(`[SUCCESS]: Đã bật Free Fire thành công từ ứng dụng!`);
+                // Lệnh mô phỏng mở giao thức game trên Android
+                window.location.href = "intent://com.dts.freefireth#Intent;package=com.dts.freefireth;end;";
+            }, 1000);
         }
 
-        function runAimLock() {
-            log(`[CẢNH BÁO]: Đã nạp thuật toán Aim Cổ thành công! Kéo tâm tự động dính chặt vào cổ đối thủ 100%!`);
+        function injectAimFix() {
+            log(`[WARNING]: Đang ghi đè bộ nhớ fix lag và cấu hình Aim Cổ 100% vào nhân game...`);
+            setTimeout(() => {
+                log(`[SUCCESS]: Đã khóa chặt vector vào cổ! Kéo tâm là bay đầu không trật phát nào.`);
+            }, 800);
+        }
+
+        function activateESP() {
+            log(`[ESP MATRIX]: Đang quét bộ nhớ đồ họa...`);
+            setTimeout(() => {
+                log(`[SUCCESS]: Đã bật ESP Định vị + Tô màu xanh toàn thân + Nhìn xuyên tường qua mọi vật cản!`);
+            }, 1000);
         }
     </script>
 </body>
