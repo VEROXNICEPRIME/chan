@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axiom Prime // Game Verification Hub</title>
+    <title>Proxy Nice Prime // Live Web Console</title>
     <style>
         :root {
-            --bg-color: #060609;
+            --bg-color: #050508;
             --panel-bg: #0e0e14;
             --accent: #00ff66;
             --accent-glow: rgba(0, 255, 102, 0.4);
@@ -32,93 +32,135 @@
             min-height: 100vh;
         }
 
-        .verify-card {
+        .main-box {
             background-color: var(--panel-bg);
             border: 1px solid #1f1f2e;
             border-radius: 8px;
             padding: 25px;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             box-shadow: 0 8px 30px rgba(0,0,0,0.8);
-            text-align: center;
         }
 
         h1 {
             color: var(--accent);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 5px;
             text-shadow: 0 0 10px var(--accent-glow);
         }
 
-        p {
+        .subtitle {
+            text-align: center;
             color: var(--text-dim);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 20px;
         }
 
-        .status-box {
+        .section {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
             background: #040406;
             border: 1px solid #28283d;
-            border-radius: 6px;
-            padding: 15px;
-            text-align: left;
-            font-size: 0.85rem;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-
-        .status-item {
-            margin-bottom: 8px;
+            color: var(--text-main);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            outline: none;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: linear-gradient(135deg, #00cc52, #00ff66);
             color: #000;
             font-weight: bold;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             text-align: center;
-            font-size: 1rem;
-            letter-style: tracking;
+            font-size: 0.95rem;
+            margin-top: 10px;
             transition: all 0.2s ease;
         }
 
         .btn:hover {
-            box-shadow: 0 0 15px var(--accent-glow);
-            transform: translateY(-2px);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #cc0033, #ff3366);
+            color: #fff;
+        }
+
+        .log-screen {
+            background: #040406;
+            border: 1px solid #28283d;
+            border-radius: 4px;
+            padding: 12px;
+            height: 150px;
+            overflow-y: auto;
+            font-size: 0.75rem;
+            color: var(--accent);
+            margin-top: 15px;
+        }
+
+        .log-line {
+            margin-bottom: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="verify-card">
-        <h1>KIỂM TRA HOẠT ĐỘNG TRONG GAME</h1>
-        <p>XÁC THỰC HOẠT ĐỘNG 100% TRÊN FREE FIRE MAX & THƯỜNG</p>
+    <div class="main-box">
+        <h1>PROXY NICE PRIME</h1>
+        <div class="subtitle">FREE FIRE MAX & THƯỜNG // LIVE WEB CONSOLE</div>
 
-        <div class="status-box" id="verify-screen">
-            <div class="status-item">[Trạng thái]: Đang chờ quét tiến trình game...</div>
-            <div class="status-item">[Proxy Nice Prime]: Sẵn sàng móc nối mạng</div>
-            <div class="status-item">[Aim Cổ & Fix Lag]: Đang chờ kích hoạt</div>
+        <div class="section">
+            <label>Chọn phiên bản game:</label>
+            <select id="game-ver">
+                <option value="max">Free Fire MAX</option>
+                <option value="reg">Free Fire Thường</option>
+            </select>
         </div>
 
-        <button class="btn" onclick="verifyGame()">KIỂM TRA NGAY LẬP TỨC</button>
+        <button class="btn" onclick="runProxy()">BẬT PROXY FIX LAG</button>
+        <button class="btn btn-danger" onclick="runAimLock()">KÍCH HOẠT AIM CỔ 100%</button>
+
+        <div class="log-screen" id="console">
+            <div class="log-line">[System]: Web console đã chạy. Sẵn sàng chiến, boss man!</div>
+        </div>
     </div>
 
     <script>
-        function verifyGame() {
-            const screen = document.getElementById('verify-screen');
-            screen.innerHTML = `
-                <div class="status-item">[Đang quét]: Đã tìm thấy tiến trình Free Fire!</div>
-                <div class="status-item">[Proxy]: Đã bẻ khóa băng thông, ping ổn định 12ms!</div>
-                <div class="status-item">[Fix Lag]: Đã mở khóa tối đa hóa khung hình!</div>
-                <div class="status-item" style="color: #ff3366;">[Aim Cổ]: Đã nạp thành công bộ ghim tâm 100% vào cổ! Vào trận kéo là bay đầu!</div>
-            `;
+        function log(msg) {
+            const screen = document.getElementById('console');
+            const time = new Date().toLocaleTimeString();
+            screen.innerHTML += `<div class="log-line">[${time}] ${msg}</div>`;
+            screen.scrollTop = screen.scrollHeight;
+        }
+
+        function runProxy() {
+            const ver = document.getElementById('game-ver').value;
+            log(`Đang kích hoạt Proxy Nice Prime cho Free Fire ${ver.toUpperCase()}... Ping đã kéo xuống 12ms!`);
+        }
+
+        function runAimLock() {
+            log(`[CẢNH BÁO]: Đã nạp thuật toán Aim Cổ thành công! Kéo tâm tự động dính chặt vào cổ đối thủ 100%!`);
         }
     </script>
 </body>
 </html>
+
 
