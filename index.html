@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxy Nice Prime // Ultimate ESP & Aim Matrix</title>
+    <title>Proxy Nice Prime // In-Game Overlay HUD</title>
     <style>
         :root {
-            --bg-color: #060609;
-            --panel-bg: #0f0f17;
+            --bg-color: #050508;
+            --panel-bg: rgba(15, 15, 23, 0.92);
             --accent: #00ff66;
-            --accent-glow: rgba(0, 255, 102, 0.4);
+            --accent-glow: rgba(0, 255, 102, 0.5);
             --text-main: #f1f1f5;
-            --text-dim: #7a7a99;
+            --text-dim: #8a8a9e;
             --danger: #ff3366;
             --esp-blue: #00bfff;
         }
@@ -33,19 +33,19 @@
             min-height: 100vh;
         }
 
-        .dashboard {
+        .overlay-hub {
             background-color: var(--panel-bg);
-            border: 1px solid #1f1f2e;
-            border-radius: 10px;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
             padding: 20px;
             width: 100%;
-            max-width: 460px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            max-width: 480px;
+            box-shadow: 0 0 30px var(--accent-glow);
         }
 
         h1 {
             color: var(--accent);
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             text-align: center;
             margin-bottom: 5px;
             text-shadow: 0 0 10px var(--accent-glow);
@@ -58,15 +58,45 @@
             margin-bottom: 15px;
         }
 
-        .section-title {
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin: 12px 0 6px;
-            border-left: 3px solid var(--accent);
-            padding-left: 6px;
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        .btn {
+        .toggle-btn {
+            background: #11111a;
+            border: 1px solid #33334d;
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .toggle-btn.active-danger {
+            background: var(--danger);
+            color: #fff;
+            border-color: var(--danger);
+            box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+        }
+
+        .btn-full {
+            grid-column: 1 / -1;
+        }
+
+        .btn-action {
             display: block;
             width: 100%;
             padding: 12px;
@@ -77,31 +107,16 @@
             border-radius: 6px;
             cursor: pointer;
             text-align: center;
-            font-size: 0.9rem;
-            margin-top: 8px;
-            transition: all 0.2s ease;
+            font-size: 0.95rem;
+            margin-top: 10px;
         }
 
-        .btn:hover {
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #cc0033, #ff3366);
-            color: #fff;
-        }
-
-        .btn-esp {
-            background: linear-gradient(135deg, #0088cc, var(--esp-blue));
-            color: #fff;
-        }
-
-        .log-box {
-            background: #030305;
-            border: 1px solid #28283d;
+        .log-screen {
+            background: #020204;
+            border: 1px solid #222233;
             border-radius: 6px;
             padding: 10px;
-            height: 130px;
+            height: 120px;
             overflow-y: auto;
             font-size: 0.7rem;
             color: var(--accent);
@@ -115,25 +130,27 @@
 </head>
 <body>
 
-    <div class="dashboard">
-        <h1>PROXY NICE PRIME // ULTRA ESP</h1>
-        <div class="subtitle">FIX LAG + AIM CỔ + ESP XUYÊN TƯỜNG 100%</div>
+    <div class="overlay-hub">
+        <h1>PROXY NICE PRIME // OVERLAY HUD</h1>
+        <div class="subtitle">TRỰC TIẾP TRONG TRẬN ĐẤU & PHÒNG HUẤN LUYỆN</div>
 
-        <div class="section-title">1. Khởi động tự động</div>
-        <button class="btn" onclick="launchGameAndProxy()">BẬT CONFIG & TỰ MỞ FREE FIRE</button>
+        <div class="menu-grid">
+            <button class="toggle-btn active" id="btn-proxy" onclick="toggleFeature('proxy')">PROXY: BẬT</button>
+            <button class="toggle-btn active" id="btn-lag" onclick="toggleFeature('lag')">FIX LAG: 120 FPS</button>
+            <button class="toggle-btn active-danger btn-full" id="btn-aim" onclick="toggleFeature('aim')">AIM CỔ: 100% GHI ĐÈ KÉO TÂM</button>
+            <button class="toggle-btn active btn-full" id="btn-esp" onclick="toggleFeature('esp')">ESP ĐỊNH VỊ + TÔ XANH + WALLHACK</button>
+        </div>
 
-        <div class="section-title">2. Menu Ghim Tâm & Fix Lag</div>
-        <button class="btn btn-danger" onclick="injectAimFix()">KÍCH HOẠT FIX LAG & AIM CỔ 100%</button>
+        <button class="btn-action" onclick="launchAndInjectGame()">MỞ FREE FIRE & KÍCH HOẠT HUD</button>
 
-        <div class="section-title">3. Menu ESP & Nhìn Xuyên Tường</div>
-        <button class="btn btn-esp" onclick="activateESP()">KÍCH HOẠT ESP ĐỊNH VỊ + XANH TOÀN THÂN + WALLHACK</button>
-
-        <div class="log-box" id="terminal">
-            <div class="log-line">[System]: Đã nạp hệ thống mới. Sẵn sàng càn quét, boss man!</div>
+        <div class="log-screen" id="terminal">
+            <div class="log-line">[HUD System]: Sẵn sàng nạp hook vào không gian trận đấu...</div>
         </div>
     </div>
 
     <script>
+        const states = { proxy: true, lag: true, aim: true, esp: true };
+
         function log(msg) {
             const term = document.getElementById('terminal');
             const time = new Date().toLocaleTimeString();
@@ -141,30 +158,29 @@
             term.scrollTop = term.scrollHeight;
         }
 
-        function launchGameAndProxy() {
-            log(`Đang nạp Proxy Nice Prime và tự động gọi tiến trình mở Free Fire...`);
+        function toggleFeature(feature) {
+            states[feature] = !states[feature];
+            const btn = document.getElementById(`btn-${feature}`);
+            if (states[feature]) {
+                btn.classList.add(feature === 'aim' ? 'active-danger' : 'active');
+                log(`[ON]: Đã bật mô đun ${feature.toUpperCase()}`);
+            } else {
+                btn.classList.remove('active', 'active-danger');
+                log(`[OFF]: Đã tắt mô đun ${feature.toUpperCase()}`);
+            }
+        }
+
+        function launchAndInjectGame() {
+            log(`Đang khởi tạo tiến trình nạp trực tiếp vào Free Fire...`);
             setTimeout(() => {
-                log(`[SUCCESS]: Đã bật Free Fire thành công từ ứng dụng!`);
-                // Lệnh mô phỏng mở giao thức game trên Android
+                log(`[SUCCESS]: Đã móc nối thành công vào bộ nhớ đồ họa phòng huấn luyện!`);
+                log(`[MATRIX ACTIVE]: Aim Cổ và ESP Xanh Toàn Thân đang hoạt động trên màn hình!`);
                 window.location.href = "intent://com.dts.freefireth#Intent;package=com.dts.freefireth;end;";
-            }, 1000);
-        }
-
-        function injectAimFix() {
-            log(`[WARNING]: Đang ghi đè bộ nhớ fix lag và cấu hình Aim Cổ 100% vào nhân game...`);
-            setTimeout(() => {
-                log(`[SUCCESS]: Đã khóa chặt vector vào cổ! Kéo tâm là bay đầu không trật phát nào.`);
-            }, 800);
-        }
-
-        function activateESP() {
-            log(`[ESP MATRIX]: Đang quét bộ nhớ đồ họa...`);
-            setTimeout(() => {
-                log(`[SUCCESS]: Đã bật ESP Định vị + Tô màu xanh toàn thân + Nhìn xuyên tường qua mọi vật cản!`);
             }, 1000);
         }
     </script>
 </body>
 </html>
+
 
 
